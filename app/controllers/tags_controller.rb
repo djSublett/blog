@@ -5,7 +5,7 @@ end
 def index
     @tags = Tag.all
 end
-def destroy
+def before_filter :require_login, only: [:destroy]
     @tag = Tag.find(params[:id])
     @tag.destroy
     flash.notice = "Tag '#{@tag.name}' Deleted!"

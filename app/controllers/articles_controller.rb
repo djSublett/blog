@@ -10,10 +10,10 @@ def show
     @comment = Comment.new
     @comment.article_id = @article.id
 end
-def new
+def new before_filter :require_login, except: [:new]
     @article = Article.new
 end
-def create
+def create before_filter :require_login, except: [:create]
     @article = Article.new(article_params)
     @article.save
 
@@ -21,7 +21,7 @@ def create
 
     redirect_to article_path(@article)
 end
-def destroy
+def destroy before_filter :require_login, only: [:destroy]
     @article = Article.find(params[:id])
     @article.destroy!
 
@@ -29,10 +29,10 @@ def destroy
 
     redirect_to article_path(@article)
 end
-def edit
+def edit before_filter :require_login, only: [:edit]
     @article = Article.find(params[:id])
 end
-def update
+def update before_filter :require_login, only: [:update]
     @article = Article.find(params[:id])
     @article.update(article_params)
 
